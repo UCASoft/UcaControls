@@ -28,7 +28,7 @@ public class PasswordDialog extends DialogFragment {
         public void onDialogNegativeClick();
     }
 
-    private final String DIALOG_TAG = "ucasoft.passwordDialog";
+    private final String TAG = "PasswordDialog";
     private String title;
     private int titleId = -1;
     private EditText editText;
@@ -49,7 +49,7 @@ public class PasswordDialog extends DialogFragment {
     }
 
     public void show(FragmentManager fragmentManager) {
-        super.show(fragmentManager, DIALOG_TAG);
+        super.show(fragmentManager, TAG);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class PasswordDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.password_dialog, null);
-        editText = (EditText) view.findViewById(R.id.password_edit_text);
+        editText = (EditText) view.findViewById(R.id.password_dialog_edit_text);
         builder.setView(view)
                 .setTitle(getTitle())
                 .setPositiveButton(android.R.string.ok, null)
