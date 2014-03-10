@@ -15,6 +15,7 @@ import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.*;
 import android.widget.*;
+import com.ucasoft.controls.R;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -95,13 +96,15 @@ public class OpenFileDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         title = createTitle(getActivity());
         changeTitle();
-        LinearLayout linearLayout = createMainLayout(getActivity());
-        linearLayout.addView(createBackItem(getActivity()));
-        listView = createListView(getActivity());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        LinearLayout linearLayout = (LinearLayout) inflater.inflate(R.layout.open_file_dialog, null);
+        prepareMainLayout(linearLayout);
+        prepareBackItem((TextView) linearLayout.findViewById(R.id.open_file_dialog_back_button));
+        listView = (ListView) linearLayout.findViewById(R.id.open_file_dialog_file_list);
+        prepareListView(listView);
         listView.setCacheColorHint(getResources().getColor(android.R.color.transparent));
         files.addAll(getFiles(currentPath));
         listView.setAdapter(new FileAdapter(getActivity(), files));
-        linearLayout.addView(listView);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setCustomTitle(title)
                 .setView(linearLayout)
@@ -180,11 +183,8 @@ public class OpenFileDialog extends DialogFragment {
         return getScreenSize(context).y;
     }
 
-    private LinearLayout createMainLayout(Context context) {
-        LinearLayout linearLayout = new LinearLayout(context);
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
-        linearLayout.setMinimumHeight(getLinearLayoutMinHeight(context));
-        return linearLayout;
+    private void prepareMainLayout(LinearLayout linearLayout) {
+        linearLayout.setMinimumHeight(getLinearLayoutMinHeight(getActivity()));
     }
 
     private int getItemHeight(Context context) {
@@ -211,12 +211,8 @@ public class OpenFileDialog extends DialogFragment {
         return textView;
     }
 
-    private TextView createBackItem(Context context) {
-        TextView textView = createTextView(context, android.R.style.TextAppearance_DeviceDefault_Small);
-        Drawable drawable = getResources().getDrawable(android.R.drawable.ic_menu_directions);
-        drawable.setBounds(0, 0, 60, 60);
-        textView.setCompoundDrawables(drawable, null, null, null);
-        textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+    private void prepareBackItem(TextView textView) {
+        textView.setMinHeight(getItemHeight(getActivity()));
         textView.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -229,7 +225,6 @@ public class OpenFileDialog extends DialogFragment {
                 }
             }
         });
-        return textView;
     }
 
     public int getTextWidth(String text, Paint paint) {
@@ -289,8 +284,7 @@ public class OpenFileDialog extends DialogFragment {
         }
     }
 
-    private ListView createListView(Context context) {
-        ListView listView = new ListView(context);
+    private void prepareListView(ListView listView) {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -309,6 +303,5 @@ public class OpenFileDialog extends DialogFragment {
                 }
             }
         });
-        return listView;
     }
 }

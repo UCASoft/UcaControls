@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:id="@+id/open_file_dialog_main_layout"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <TextView
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Small"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@android:drawable/ic_menu_directions"
+        android:id="@+id/open_file_dialog_back_button"
+        android:gravity="center_vertical"
+        android:paddingLeft="3dp"
+        tools:ignore="NewApi"/>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/open_file_dialog_file_list"/>
+</LinearLayout>
