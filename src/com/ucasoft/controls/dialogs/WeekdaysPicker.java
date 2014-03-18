@@ -8,8 +8,7 @@ import android.os.Bundle;
 import com.ucasoft.controls.R;
 
 import java.text.DateFormatSymbols;
-import java.util.Calendar;
-import java.util.HashSet;
+import java.util.*;
 
 /**
  * Created by UCASoft.
@@ -26,12 +25,12 @@ public class WeekdaysPicker extends DialogFragment {
 
     private final String TAG = "WeekdaysPicker";
     private OnWeekdaysListener listener;
-    private HashSet<Integer> selectedDays = new HashSet<Integer>();
+    private TreeSet<Integer> selectedDays = new TreeSet<Integer>();
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-                .setMultiChoiceItems(getWeekDays(), null, new DialogInterface.OnMultiChoiceClickListener() {
+                .setMultiChoiceItems(getWeekDays(), getSelectedDays(), new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i, boolean b) {
                         int firstDay = Calendar.getInstance().getFirstDayOfWeek();
@@ -57,11 +56,32 @@ public class WeekdaysPicker extends DialogFragment {
         return builder.create();
     }
 
+    public void setSelectedDays(int[] weekdays) {
+        if (weekdays != null) {
+            for (int weekday : weekdays) {
+                selectedDays.add(weekday);
+            }
+        }
+    }
+
     private int[] getIntResult() {
         int[] result = new int[selectedDays.size()];
         int i = 0;
         for(Integer day : selectedDays) {
             result[i++] = day;
+        }
+        return result;
+    }
+
+    private boolean[] getSelectedDays(){
+        boolean[] result = new boolean[7];
+        int firstDay = Calendar.getInstance().getFirstDayOfWeek();
+        for (int day : selectedDays) {
+            int i = day - firstDay;
+            if (i < 0) {
+                i += 7;
+            }
+            result[i] = true;
         }
         return result;
     }
