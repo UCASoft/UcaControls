@@ -14,6 +14,7 @@
         android:id="@+id/open_file_dialog_back_button"
         android:gravity="center_vertical"
         android:paddingLeft="3dp"
+        android:background="?android:attr/listChoiceBackgroundIndicator"
         tools:ignore="NewApi"/>
     <ListView
         android:layout_width="match_parent"
